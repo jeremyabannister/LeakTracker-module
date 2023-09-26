@@ -56,7 +56,7 @@ public final class RootLeakTracker {
     }
     
     ///
-    public var leakTracker: LeakTracker {
+    public var asLeakTracker: LeakTracker {
         .init(
             trackObject: {
                 self.track(
