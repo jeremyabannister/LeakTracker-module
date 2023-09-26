@@ -42,7 +42,7 @@ public final class RootLeakTracker {
         }
         
         ///
-        return unreleasedObjects
+        return unreleasedObjects.reversed()
     }
     
     ///
