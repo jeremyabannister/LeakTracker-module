@@ -13,7 +13,7 @@ public final class RootLeakTracker {
     
     ///
     @MainActor
-    private var trackedObjects: [(String?, WeakReference<any AnyObject>)] = []
+    private var trackedObjects: [(name: String?, weakReference: WeakReference<any AnyObject>)] = []
     
     ///
     public init (name: String) {
@@ -22,7 +22,7 @@ public final class RootLeakTracker {
     
     ///
     @MainActor
-    public func unreleasedObjects () -> [(String?, any AnyObject)] {
+    public func unreleasedObjects () -> [(name: String?, object: any AnyObject)] {
         
         ///
         var unreleasedObjects: [(String?, any AnyObject)] = []
