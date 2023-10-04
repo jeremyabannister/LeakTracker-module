@@ -70,12 +70,22 @@ public final class RootLeakTracker {
     ///
     @MainActor
     public func assertNoLeaks () throws {
+        try assertMaximumLeakCount(0)
+    }
+    
+    ///
+    @MainActor
+    public func assertMaximumLeakCount
+        (_ maximumLeakCount: Int)
+    throws {
         
         ///
         let leakCount = self.unreleasedObjects().count
         
         ///
-        if leakCount > 0 {
+        if leakCount >= maximumLeakCount {
+            
+            ///
             throw LeakCount(leakCount: leakCount)
         }
     }
