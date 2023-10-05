@@ -83,7 +83,7 @@ public final class RootLeakTracker {
         let leakCount = self.unreleasedObjects().count
         
         ///
-        if leakCount >= maximumLeakCount {
+        if leakCount > maximumLeakCount {
             
             ///
             throw LeakCount(leakCount: leakCount)
