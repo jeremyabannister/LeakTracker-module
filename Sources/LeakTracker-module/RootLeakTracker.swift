@@ -9,14 +9,14 @@
 public final class RootLeakTracker {
     
     ///
-    public let name: String
+    public let name: String?
     
     ///
     @MainActor
     private var trackedObjects: [(name: String?, weakReference: WeakReference<any AnyObject>)] = []
     
     ///
-    public init (name: String) {
+    public init (name: String? = nil) {
         self.name = name
     }
     
@@ -46,6 +46,22 @@ public final class RootLeakTracker {
     }
     
     ///
+    public var asLeakTracker: LeakTracker {
+        .init(
+            trackObject: { objectName, object in
+                self.track(
+                    object,
+                    name: objectName.map { objectName in
+                        self.name.map { parentName in
+                            "\(parentName).\(objectName)"
+                        } ?? objectName
+                    } ?? self.name
+                )
+            }
+        )
+    }
+    
+    ///
     @MainActor
     public func track
         (_ object: some AnyObject,
@@ -53,18 +69,6 @@ public final class RootLeakTracker {
         
         ///
         trackedObjects.append((name, .init(object)))
-    }
-    
-    ///
-    public var asLeakTracker: LeakTracker {
-        .init(
-            trackObject: {
-                self.track(
-                    $1,
-                    name: $0.map { "\(self.name).\($0)" } ?? self.name
-                )
-            }
-        )
     }
     
     ///
