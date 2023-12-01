@@ -10,14 +10,19 @@ public final class RootLeakTracker {
     
     ///
     public let name: String?
+    private let shouldTrackForReal: Bool
     
     ///
     @MainActor
     private var trackedObjects: [(name: String?, weakReference: WeakReference<any AnyObject>)] = []
     
     ///
-    public init (name: String? = nil) {
+    public init(
+        name: String? = nil,
+        shouldTrackForReal: Bool = true
+    ) {
         self.name = name
+        self.shouldTrackForReal = shouldTrackForReal
     }
     
     ///
@@ -66,6 +71,9 @@ public final class RootLeakTracker {
     public func track
         (_ object: some AnyObject,
          name: String? = nil) {
+        
+        ///
+        guard shouldTrackForReal else { return }
         
         ///
         trackedObjects.append((name, .init(object)))
