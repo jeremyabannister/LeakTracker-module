@@ -9,6 +9,11 @@
 public struct LeakTracker {
     
     ///
+    @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+    @TaskLocal
+    public static var current: LeakTracker = .no_tracking
+    
+    ///
     private let _trackObject: @MainActor (String?, any AnyObject)->()
     
     ///
